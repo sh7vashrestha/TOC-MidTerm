@@ -1,8 +1,3 @@
-"""Small automata functions for the Theory of Computation assignment.
-
-An edge is (source, label, destination). The empty label means epsilon.
-"""
-
 from collections import deque
 
 
@@ -26,17 +21,11 @@ class NFA:
 
 
 def thompson(regex):
-    """Read a basic regex and build its Thompson epsilon-NFA.
-
-    Supported: single letters/digits, |, *, parentheses, epsilon (ε),
-    and empty language (∅). Spaces are ignored. Concatenation is implicit.
-    We keep separate fragment states and join them with epsilon edges.
-    """
     text = "".join(regex.split())
     position = 0
     nfa = NFA()
 
-    # Each parser function returns a fragment's (start, end) states.
+    # every parse function returns the (start, end) of the piece it built
     def read_atom():
         nonlocal position
         if position == len(text):
@@ -113,14 +102,13 @@ def degrees(nfa):
 
 
 def make_2_nfa(nfa):
-    """Keep original states; add binary epsilon trees only where needed."""
     result = NFA()
     for q in nfa.states:
         result.new_state()
     result.start = nfa.start
     result.finals = set(nfa.finals)
 
-    # Edge IDs let us change the two endpoints independently.
+    # edge ids so each end of an edge can be moved on its own
     sources = [source for source, label, target in nfa.edges]
     targets = [target for source, label, target in nfa.edges]
     incoming = {q: [] for q in nfa.states}
@@ -141,7 +129,6 @@ def make_2_nfa(nfa):
                     targets[edge_id] = root
             return
 
-        # Divide the edges into two nearly equal groups.
         middle = (low + high) // 2
         for begin, end in ((low, middle), (middle, high)):
             if end - begin == 1:
@@ -195,7 +182,6 @@ def accepts(nfa, word):
 
 
 def to_dfa(nfa):
-    """Reachable subset construction, including the empty-set sink."""
     dfa = NFA()
     first = epsilon_closure(nfa, {nfa.start})
     subsets = [first]
@@ -218,10 +204,6 @@ def to_dfa(nfa):
 
 
 def minimize_dfa(dfa):
-    """Split groups until states in each group have identical behavior.
-
-    The input must be a reachable, complete DFA, like to_dfa() returns.
-    """
     letters = alphabet(dfa)
     transition = {(s, a): t for s, a, t in dfa.edges}
     groups = [set(dfa.finals), set(dfa.states) - dfa.finals]
@@ -239,7 +221,6 @@ def minimize_dfa(dfa):
             break
         groups = new_groups
 
-    # Put the start group first to make the printed result easier to read.
     groups.sort(key=lambda group: (dfa.start not in group, min(group)))
     group_of = {q: i for i, group in enumerate(groups) for q in group}
     result = NFA()
@@ -255,11 +236,6 @@ def minimize_dfa(dfa):
 
 
 def equivalent(left, right):
-    """Exact language check; return (False, a counterexample) if different.
-
-    Explore pairs of epsilon-closed subsets, not just sample words.
-    This can be exponential, so use it for these small experiments.
-    """
     first = (epsilon_closure(left, {left.start}),
              epsilon_closure(right, {right.start}))
     todo = deque([(first, "")])
@@ -278,7 +254,6 @@ def equivalent(left, right):
 
 
 def high_degree_example(branches=4):
-    """Many ways to read 'ab'; the middle state needs both kinds of repair."""
     nfa = NFA()
     nfa.start = nfa.new_state()
     middle = nfa.new_state()

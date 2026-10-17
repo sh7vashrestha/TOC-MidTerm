@@ -1,5 +1,3 @@
-"""Save readable transition tables and diagrams without extra packages."""
-
 import csv
 from collections import deque
 from html import escape
@@ -27,8 +25,6 @@ def write_csv(path, header, rows):
 
 
 def positions(nfa):
-    # Use left-to-right layers for acyclic graphs (our two main examples).
-    # A DFA dead state is drawn below the other states, away from the main path.
     dead = None
     for q in nfa.states:
         outgoing_edges = [(a, t) for s, a, t in nfa.edges if s == q]
@@ -56,7 +52,6 @@ def positions(nfa):
                 if pending[target] == 0:
                     todo.append(target)
 
-    # For graphs with loops, a simple breadth-first layout is enough.
     if visited != len(main_states):
         level = {nfa.start: 0}
         todo = deque([nfa.start])
@@ -96,7 +91,7 @@ def write_svg(nfa, path, title, original_count=None):
         f'<text x="24" y="27" font-size="18" font-weight="bold">{escape(title)}</text>',
         '<text x="24" y="49" fill="#475569">ε consumes no input. Purple nodes are added routing states. Double circles accept.</text>',
     ]
-    # Combining labels is only for drawing. CSV files count edges separately.
+    # labels are merged only for the picture, the csv files keep every edge
     connections = {}
     for source, label, target in nfa.edges:
         connections.setdefault((source, target), []).append(label or "ε")

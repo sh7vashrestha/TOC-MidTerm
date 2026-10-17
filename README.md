@@ -7,14 +7,15 @@ with the DFA. Uses only the Python standard library.
 ## Run
 
 ```sh
-python3 main.py            # builds everything into results/
+./run.sh                   # paper results -> outputs/main, demo -> outputs/demo
 python3 -m unittest -v     # runs the tests
 ```
 
-To try another regex without overwriting `results/`:
+`run.sh` just runs `python3 main.py --output outputs/main` and
+`python3 main.py --demo --output outputs/demo`. To try another regex:
 
 ```sh
-python3 main.py --regex '(a|b)*abb' --output other_results
+python3 main.py --regex '(a|b)*abb' --output outputs/other
 ```
 
 Supported: letters/digits, `|`, `*`, parentheses, `ε`, `∅`.
@@ -36,9 +37,10 @@ The demo shows the algorithm adding states when a state has too many edges.
 ## Files
 
 - `automata.py`: the algorithms (Thompson, 2-NFA conversion, DFA, minimization).
-- `main.py`: runs everything and writes `results/`.
+- `main.py`: runs the regex (or `--demo`) and writes the tables and diagrams.
 - `export_results.py`: writes the CSV tables and SVG diagrams.
 - `test_automata.py`: tests.
-- `results/RESULTS.md`: summary table and the 16 accepted words. Each machine
-  also has a `.svg` diagram, `_transitions.csv` and `_degrees.csv`.
+- `outputs/main/RESULTS.md`: summary table and the 16 accepted words.
+  `outputs/demo/RESULTS.md`: the high-degree example. Each machine also has a
+  `.svg` diagram, `_transitions.csv` and `_degrees.csv`.
 - `output/pdf/bounded_nfa_paper.pdf`: the paper. See `paper/README.md` to rebuild it.

@@ -1,5 +1,3 @@
-"""Correctness matters here: degree bounds alone would not prove anything."""
-
 import random
 import re
 import unittest
@@ -84,8 +82,7 @@ class AutomataTests(unittest.TestCase):
         self.assertTrue(accepts(thompson("∅*"), ""))
 
     def test_random_nfas_with_cycles_and_multiple_finals(self):
-        # Fixed seed makes failures reproducible. These are arbitrary NFAs,
-        # not just the already-bounded NFAs built by Thompson's method.
+        # fixed seed so a failing case can be reproduced
         rng = random.Random(8041)
         for trial in range(30):
             machine = NFA()
