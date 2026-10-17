@@ -1,0 +1,17 @@
+source,label,target
+q0,ε,q3
+q3,a,q1
+q1,b,q4
+q4,ε,q2
+q0,ε,q5
+q5,a,q1
+q1,b,q6
+q6,ε,q2
+q0,ε,q7
+q7,a,q1
+q1,b,q8
+q8,ε,q2
+q0,ε,q9
+q9,a,q1
+q1,b,q10
+q10,ε,q2
