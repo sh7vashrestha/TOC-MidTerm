@@ -1,0 +1,11 @@
+state,in_degree,out_degree,within_bound_2,start,accepting
+q0,0,2,True,True,False
+q1,1,1,True,False,False
+q2,1,1,True,False,False
+q3,2,2,True,False,False
+q4,1,2,True,False,False
+q5,1,2,True,False,False
+q6,2,2,True,False,False
+q7,2,2,True,False,False
+q8,2,0,True,False,True
+q9,2,0,True,False,True

@@ -1,0 +1,15 @@
+source,label,target
+q0,a,q1
+q0,b,q2
+q1,c,q3
+q2,c,q3
+q3,a,q4
+q3,b,q5
+q4,a,q6
+q4,b,q7
+q5,a,q6
+q5,b,q7
+q6,a,q8
+q6,b,q9
+q7,a,q8
+q7,b,q9

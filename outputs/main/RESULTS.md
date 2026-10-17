@@ -4,6 +4,7 @@
 |---|---:|---:|---:|---:|---:|
 | Thompson NFA | 26 | 29 | 20 | 2 | 2 |
 | Converted 2-NFA | 26 | 29 | 20 | 2 | 2 |
+| ε-free NFA | 10 | 14 | 0 | 2 | 2 |
 | Complete subset DFA | 11 | 33 | 0 | 19 | 3 |
 | Minimal complete DFA | 7 | 21 | 0 | 12 | 3 |
 

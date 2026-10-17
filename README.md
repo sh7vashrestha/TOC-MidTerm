@@ -26,6 +26,7 @@ Supported: letters/digits, `|`, `*`, parentheses, `ε`, `∅`.
 |---|---:|---:|---:|---:|
 | Thompson NFA | 26 | 29 | 2 | 2 |
 | 2-NFA | 26 | 29 | 2 | 2 |
+| ε-free NFA | 10 | 14 | 2 | 2 |
 | Subset DFA | 11 | 33 | 19 | 3 |
 | Minimal DFA | 7 | 21 | 12 | 3 |
 | Demo (ε-free `(a\|b\|c\|d)x`) before | 6 | 8 | 4 | 4 |

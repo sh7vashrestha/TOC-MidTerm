@@ -46,14 +46,16 @@ def main():
         bounded = make_2_nfa(original)
         dfa, _ = to_dfa(original)
         minimal = minimize_dfa(dfa)
+        epsilon_free = remove_epsilon(original)
         check_conversion(original, bounded)
-        for machine in (dfa, minimal):
+        for machine in (epsilon_free, dfa, minimal):
             if not equivalent(original, machine)[0]:
-                raise ValueError("A DFA does not accept the same language as the NFA")
+                raise ValueError("A machine does not accept the same language as the NFA")
         heading = f"Regular expression: `{args.regex}`"
         machines = [
             ("thompson_nfa", original, "Thompson NFA", None),
             ("two_nfa", bounded, "Converted 2-NFA", len(original.states)),
+            ("epsilon_free_nfa", epsilon_free, "ε-free NFA", None),
             ("subset_dfa", dfa, "Complete subset DFA", None),
             ("minimal_dfa", minimal, "Minimal complete DFA", None),
         ]
