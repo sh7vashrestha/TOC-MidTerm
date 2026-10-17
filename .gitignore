@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+results/
+other_results/
+output/
+paper/
+tmp/
+PAPER_NOTES.md
+WALKTHROUGH.md
+.DS_Store
+.vscode/
