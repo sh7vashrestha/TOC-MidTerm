@@ -28,11 +28,12 @@ Supported: letters/digits, `|`, `*`, parentheses, `ε`, `∅`.
 | 2-NFA | 26 | 29 | 2 | 2 |
 | Subset DFA | 11 | 33 | 19 | 3 |
 | Minimal DFA | 7 | 21 | 12 | 3 |
-| Demo before | 11 | 16 | 4 | 4 |
-| Demo after | 19 | 24 | 2 | 2 |
+| Demo (ε-free `(a\|b\|c\|d)x`) before | 6 | 8 | 4 | 4 |
+| Demo after | 10 | 12 | 2 | 2 |
 
 The Thompson NFA already meets the limit, so the 2-NFA is the same machine.
-The demo shows the algorithm adding states when a state has too many edges.
+The demo removes the ε-edges from the Thompson NFA of `(a|b|c|d)x`; that NFA has
+states with 4 edges, and the algorithm adds 4 states to fix them.
 
 ## Files
 

@@ -4,8 +4,8 @@ import unittest
 from itertools import product
 
 from automata import (NFA, accepts, degrees, equivalent, high_degree_example,
-                      make_2_nfa, minimize_dfa, thompson, to_dfa)
-from main import REQUIRED_REGEX
+                      make_2_nfa, minimize_dfa, remove_epsilon, thompson, to_dfa)
+from main import DEMO_REGEX, REQUIRED_REGEX
 
 
 class AutomataTests(unittest.TestCase):
@@ -66,6 +66,18 @@ class AutomataTests(unittest.TestCase):
         self.assertTrue(accepts(result, "ab"))
         for word in ["", "a", "b", "ba", "aab", "abb"]:
             self.assertFalse(accepts(result, word))
+
+    def test_epsilon_free_demo(self):
+        for pattern in [REQUIRED_REGEX, DEMO_REGEX, "(a|b)*abb", "(ab|ε)*c"]:
+            machine = remove_epsilon(thompson(pattern))
+            self.assertTrue(all(label for _, label, _ in machine.edges))
+            self.assertTrue(equivalent(thompson(pattern), machine)[0], pattern)
+        required = remove_epsilon(thompson(REQUIRED_REGEX))
+        self.assertEqual((len(required.states), len(required.edges)), (10, 14))
+        demo = remove_epsilon(thompson(DEMO_REGEX))
+        result = self.check_bounded(demo)
+        self.assertEqual((len(demo.states), len(demo.edges)), (6, 8))
+        self.assertEqual((len(result.states), len(result.edges)), (10, 12))
 
     def test_fifteen_connections(self):
         self.check_bounded(high_degree_example(15))

@@ -166,6 +166,20 @@ def epsilon_closure(nfa, states):
     return frozenset(reached)
 
 
+def remove_epsilon(nfa):
+    result = NFA()
+    keep = [nfa.start] + sorted({t for s, a, t in nfa.edges if a != EPSILON} - {nfa.start})
+    number = {q: result.new_state() for q in keep}
+    result.start = number[nfa.start]
+    for q in keep:
+        closure = epsilon_closure(nfa, {q})
+        if closure & nfa.finals:
+            result.finals.add(number[q])
+        for label, target in sorted({(a, t) for s, a, t in nfa.edges if s in closure and a != EPSILON}):
+            result.add_edge(number[q], label, number[target])
+    return result
+
+
 def step(nfa, states, char):
     next_states = set()
     for source, label, target in nfa.edges:

@@ -2,12 +2,13 @@ import argparse
 from itertools import product
 from pathlib import Path
 
-from automata import (accepts, degrees, equivalent, high_degree_example,
-                      make_2_nfa, minimize_dfa, thompson, to_dfa)
+from automata import (accepts, degrees, equivalent, make_2_nfa, minimize_dfa,
+                      remove_epsilon, thompson, to_dfa)
 from export_results import save_machine, stats
 
 
 REQUIRED_REGEX = "(a|b)c(a|b)(a|b)(a|b)"
+DEMO_REGEX = "(a|b|c|d)x"
 
 
 def check_conversion(original, converted):
@@ -29,13 +30,15 @@ def main():
     folder.mkdir(parents=True, exist_ok=True)
 
     if args.demo:
-        original = high_degree_example()
+        original = remove_epsilon(thompson(DEMO_REGEX))
         bounded = make_2_nfa(original)
         check_conversion(original, bounded)
-        heading = "High-degree example (accepts only `ab`)"
+        if not equivalent(thompson(DEMO_REGEX), original)[0]:
+            raise ValueError("Removing ε-edges changed the language")
+        heading = f"ε-free NFA for `{DEMO_REGEX}`"
         machines = [
-            ("demo_before", original, "High-degree example: before", None),
-            ("demo_after", bounded, "High-degree example: after", len(original.states)),
+            ("demo_before", original, "ε-free NFA: before", None),
+            ("demo_after", bounded, "ε-free NFA: after", len(original.states)),
         ]
         notes = ["Purple states in demo_after.svg are the added routing states."]
     else:
@@ -64,7 +67,7 @@ def main():
         summary[name] = info
         print(f"{title:<28} {info['states']:>7} {info['transitions']:>7} "
               f"{info['max_in_degree']:>8} {info['max_out_degree']:>8}")
-        save_machine(machine, folder, name, title, original_count)
+        save_machine(machine, folder, name, original_count)
 
     report = [f"# {heading}", "",
               "| Machine | States | Edges | ε edges | Max in | Max out |",

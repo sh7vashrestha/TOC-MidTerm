@@ -1,12 +1,7 @@
 state,in_degree,out_degree,within_bound_2,start,accepting
 q0,0,4,False,True,False
-q1,4,4,False,False,False
-q2,4,0,False,False,True
+q1,1,1,True,False,False
+q2,1,1,True,False,False
 q3,1,1,True,False,False
 q4,1,1,True,False,False
-q5,1,1,True,False,False
-q6,1,1,True,False,False
-q7,1,1,True,False,False
-q8,1,1,True,False,False
-q9,1,1,True,False,False
-q10,1,1,True,False,False
+q5,4,0,False,False,True

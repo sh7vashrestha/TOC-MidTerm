@@ -81,15 +81,13 @@ def positions(nfa):
     return xy, width, height
 
 
-def write_svg(nfa, path, title, original_count=None):
+def write_svg(nfa, path, original_count=None):
     xy, width, height = positions(nfa)
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">',
         '<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>',
         '<rect width="100%" height="100%" fill="white"/>',
         '<g font-family="Arial, sans-serif" font-size="13">',
-        f'<text x="24" y="27" font-size="18" font-weight="bold">{escape(title)}</text>',
-        '<text x="24" y="49" fill="#475569">ε consumes no input. Purple nodes are added routing states. Double circles accept.</text>',
     ]
     # labels are merged only for the picture, the csv files keep every edge
     connections = {}
@@ -124,7 +122,7 @@ def write_svg(nfa, path, title, original_count=None):
     path.write_text("\n".join(parts), encoding="utf-8")
 
 
-def save_machine(nfa, folder, name, title, original_count=None):
+def save_machine(nfa, folder, name, original_count=None):
     write_csv(folder / f"{name}_transitions.csv", ["source", "label", "target"],
               ((f"q{s}", a or "ε", f"q{t}") for s, a, t in nfa.edges))
     incoming, outgoing = degrees(nfa)
@@ -132,4 +130,4 @@ def save_machine(nfa, folder, name, title, original_count=None):
               ["state", "in_degree", "out_degree", "within_bound_2", "start", "accepting"],
               ((f"q{q}", incoming[q], outgoing[q], incoming[q] <= 2 and outgoing[q] <= 2,
                 q == nfa.start, q in nfa.finals) for q in nfa.states))
-    write_svg(nfa, folder / f"{name}.svg", title, original_count)
+    write_svg(nfa, folder / f"{name}.svg", original_count)
