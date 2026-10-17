@@ -1,4 +1,4 @@
-# Degree-2 NFA assignment
+# Degree-2 NFA
 
 Turns the regex `(a|b)c(a|b)(a|b)(a|b)` into a Thompson NFA, converts it to a
 2-NFA (no state has more than 2 incoming or outgoing edges), and compares it
